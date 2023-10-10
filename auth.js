@@ -9,21 +9,17 @@ let authTokenReturnCodes = {
 };
 
 function generateAuthToken() {
-  // TODO: Store the token temporarily in the database
-  return (
-    Math.random().toString(36).substring(2, 15) +
-    Math.random().toString(36).substring(2, 15)
-  );
+  return Math.random() * (0xFFFFFF - 0);
 }
 
-function isValidCredentials(username, password) {
+function isValidCredentials(username) {
   conn = database.connect();
 
-  // TODO: Validate username and password
-  // TODO: hash the password
+  // TODO: Sanitize username
+
   database.executeQuery(
     conn,
-    `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`
+    `SELECT * FROM users WHERE username = '${username}'`
   );
 
   if (conn.results.length > 0) {
@@ -43,5 +39,6 @@ function isValidCredentials(username, password) {
 
 export default {
   generateAuthToken,
+  isValidCredentials,
   authTokenReturnCodes,
 };
